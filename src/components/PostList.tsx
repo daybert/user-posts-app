@@ -4,11 +4,15 @@ import { PostCard } from './PostCard';
 import { LoadingSpinner } from './UI/LoadingSpinner';
 import { ErrorMessage } from './UI/ErrorMessage';
 import { EmptyState } from './UI/EmptyState';
+import { CreatePostForm } from './CreatePostForm';
 
 export const PostList: React.FC<PostListProps> = ({
   selectedUser,
   posts,
   loading,
+  isSubmitting,
+  submitError,
+  onCreatePost,
   error,
   onRetry,
 }) => {
@@ -68,6 +72,12 @@ export const PostList: React.FC<PostListProps> = ({
           {posts.length === 1 ? 'publicación' : 'publicaciones'}
         </div>
       </div>
+
+      <CreatePostForm
+        userName={selectedUser.name}
+        {...{ isSubmitting, submitError }}
+        onSubmit={onCreatePost}
+      />
 
       <div className="posts-content-area">
         {loading && (

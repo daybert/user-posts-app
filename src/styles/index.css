@@ -502,7 +502,7 @@ body {
 }
 
 .open-form-btn {
-  width: 100%;
+  width: fit-content;
   padding: 0.875rem 1.25rem;
   display: flex;
   align-items: center;

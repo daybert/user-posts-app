@@ -100,3 +100,18 @@ export interface PostListProps {
 export interface PostCardProps {
   post: Post;
 }
+
+export interface CreatePostFormProps {
+  userName: string;
+  isSubmitting: boolean;
+  submitError: string | null;
+  onSubmit: (title: string, body: string) => Promise<boolean>;
+  initialOpen?: boolean;
+}
+
+export interface FormErrors {
+  title?: string;
+  body?: string;
+}
+
+export type AsyncStatus = 'idle' | 'loading' | 'success' | 'error';
