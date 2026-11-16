@@ -16,7 +16,7 @@ Permite listar usuarios, realizar búsquedas instantáneas por nombre o username
 ### 1. Clonar o ingresar al proyecto
 
 ```bash
-cd "c:/Users/Daybert/Desktop/001"
+git clone https://github.com/daybert/user-posts-app.git"
 ```
 
 ### 2. Instalar dependencias
