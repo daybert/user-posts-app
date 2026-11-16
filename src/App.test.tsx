@@ -1,23 +1,68 @@
-import { describe, it, expect } from 'vitest';
-import { render, screen } from '@testing-library/react';
+import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
+import { render, screen, waitFor } from '@testing-library/react';
 import App from './App';
 
 describe('App component', () => {
-  it('renders the header and title correctly', () => {
-    render(<App />);
-    expect(screen.getByText('User Posts App')).toBeInTheDocument();
+  beforeEach(() => {
+    vi.restoreAllMocks();
   });
 
-  it('renders initial posts', () => {
-    render(<App />);
-    expect(screen.getByText('Primer post del proyecto')).toBeInTheDocument();
-    expect(screen.getByText(/Lorem ipsum dolor sit amet/i)).toBeInTheDocument();
+  afterEach(() => {
+    vi.restoreAllMocks();
   });
 
-  it('renders action button', () => {
+  it('renders the header title correctly', () => {
+    vi.stubGlobal(
+      'fetch',
+      vi.fn().mockRejectedValue(new Error('Network error'))
+    );
     render(<App />);
-    expect(
-      screen.getByRole('button', { name: /nuevo post/i })
-    ).toBeInTheDocument();
+    expect(screen.getByText('User & Posts Explorer')).toBeInTheDocument();
+  });
+
+  it('renders "API Conectada" when API request succeeds', async () => {
+    vi.stubGlobal(
+      'fetch',
+      vi.fn().mockResolvedValue({
+        ok: true,
+        json: async () => [{ id: 1, name: 'Test User' }],
+      })
+    );
+
+    render(<App />);
+
+    await waitFor(() => {
+      expect(screen.getByText('API Conectada')).toBeInTheDocument();
+    });
+  });
+
+  it('renders "API Conectada" when API responds with 304 Not Modified', async () => {
+    vi.stubGlobal(
+      'fetch',
+      vi.fn().mockResolvedValue({
+        ok: false,
+        status: 304,
+      })
+    );
+
+    render(<App />);
+
+    await waitFor(() => {
+      expect(screen.getByText('API Conectada')).toBeInTheDocument();
+    });
+  });
+
+  it('does not render "API Conectada" when API request fails', async () => {
+    vi.stubGlobal(
+      'fetch',
+      vi.fn().mockResolvedValue({
+        ok: false,
+        status: 500,
+      })
+    );
+
+    render(<App />);
+
+    expect(screen.queryByText('API Conectada')).not.toBeInTheDocument();
   });
 });
