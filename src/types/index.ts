@@ -85,3 +85,18 @@ export interface UserSearchProps {
   totalCount: number;
   filteredCount: number;
 }
+
+export interface PostListProps {
+  selectedUser: User | null;
+  posts: Post[];
+  loading: boolean;
+  error: string | null;
+  isSubmitting: boolean;
+  submitError: string | null;
+  onCreatePost: (title: string, body: string) => Promise<boolean>;
+  onRetry: () => void;
+}
+
+export interface PostCardProps {
+  post: Post;
+}
