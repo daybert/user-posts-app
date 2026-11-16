@@ -42,3 +42,46 @@ export interface Address {
   zipcode: string;
   geo: Geo;
 }
+
+export interface UserListProps {
+  users: User[];
+  filteredUsers: User[];
+  loading: boolean;
+  error: string | null;
+  searchQuery: string;
+  onSearchChange: (query: string) => void;
+  selectedUser: User | null;
+  onSelectUser: (user: User) => void;
+  onRetry: () => void;
+}
+
+export interface EmptyStateProps {
+  title: string;
+  description: string;
+  icon?: React.ReactNode;
+  action?: React.ReactNode;
+}
+
+export interface ErrorMessageProps {
+  title?: string;
+  message: string;
+  onRetry?: () => void;
+}
+
+export interface LoadingSpinnerProps {
+  message?: string;
+  size?: 'sm' | 'md' | 'lg';
+}
+
+export interface UserCardProps {
+  user: User;
+  isSelected: boolean;
+  onSelect: (user: User) => void;
+}
+
+export interface UserSearchProps {
+  value: string;
+  onChange: (value: string) => void;
+  totalCount: number;
+  filteredCount: number;
+}
